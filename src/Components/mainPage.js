@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import carList from "./carList";
+import CarList from "./carList";
 
 class MainPage extends Component {
   constructor() {
@@ -106,7 +106,7 @@ class MainPage extends Component {
         {this.renderTags()}
         <h2>Cars:</h2>
         {errorStatus && <p className="error">{errorStatus}</p>}
-        <carList cars={cars} />
+        <CarList cars={cars} />
       </div>
     );
   }

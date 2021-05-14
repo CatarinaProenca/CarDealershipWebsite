@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import MainPage from './Components/mainPage'
+import MainPage from './components/mainPage'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

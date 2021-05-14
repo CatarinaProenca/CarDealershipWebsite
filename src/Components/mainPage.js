@@ -1,9 +1,20 @@
 import React, { Component } from "react";
 import CarList from "./carList";
+import {
+  Navbar,
+  Form,
+  NavDropdown,
+  FormControl,
+  Nav,
+  Button,
+} from "react-bootstrap";
+import { BrowserRouter as Router } from "react-router-dom";
+//import Info from "./infoPage";
 
 class MainPage extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.state = {
       cars: [
         {
@@ -20,7 +31,7 @@ class MainPage extends Component {
           model: "Model S",
           price: 100000,
           wiki: "http://en.wikipedia.org/wiki/Porsche_997",
-          img: "http://media.caranddriver.com/images/14q4/638369/2015-tesla-model-s-p85d-first-drive-review-car-and-driver-photo-648964-s-450x274.jpg",
+          img: "https://pplware.sapo.pt/wp-content/uploads/2019/06/novo_tesla_model_s_00.jpg",
         },
         {
           id: 3,
@@ -36,7 +47,7 @@ class MainPage extends Component {
           model: "Cayenne Turbo",
           price: 11000,
           wiki: "http://en.wikipedia.org/wiki/Porsche_997",
-          img: "http://files3.porsche.com/filestore/galleryimagerwd/multimedia/none/rd-2013-9pa-e2-2nd-tu-gallery-exterior-06/preview/6e14937f-010f-11e4-84a6-001a64c55f5c/porsche-cayenne-image.jpg",
+          img: "https://www.motor24.pt/files/2019/08/4-1-800x533_c.jpg",
         },
         {
           id: 5,
@@ -44,7 +55,7 @@ class MainPage extends Component {
           model: "GT-R",
           price: 80000,
           wiki: "http://en.wikipedia.org/wiki/Nissan_Gt-r",
-          img: "http://media.caranddriver.com/images/14q4/638369/2015-tesla-model-s-p85d-first-drive-review-car-and-driver-photo-648964-s-450x274.jpg",
+          img: "https://fotos.jornaldocarro.estadao.com.br/uploads/2019/04/21122627/5ee03295-2020-nissan-gt-r-19-1160x773.jpg",
         },
         {
           id: 6,
@@ -52,7 +63,7 @@ class MainPage extends Component {
           model: "M3",
           price: 60500,
           wiki: "http://en.wikipedia.org/wiki/Bmw_m3",
-          img: "http://media.caranddriver.com/images/media/331369/m-is-for-mega-2015-bmw-m3-pricing-surfaces-photo-583888-s-450x274.jpg",
+          img: "https://cdn.motor1.com/images/mgl/R09nm/s3/bmw-m3-2021-im-test.jpg",
         },
         {
           id: 7,
@@ -72,7 +83,21 @@ class MainPage extends Component {
         },
       ],
       errorStatus: "",
+      search: "",
+      info: 0,
     };
+  }
+
+  handleClickInfo() {
+    /* return (
+     <Router>
+        <Info />
+      </Router>
+    );*/
+  }
+
+  updateSearch(event) {
+    this.setState({ search: event.target.value.substr(0, 20) });
   }
 
   renderTags() {
@@ -82,30 +107,57 @@ class MainPage extends Component {
     return <p>Showing: {this.state.cars.length} cars total</p>;
   }
 
+  handleInfo = (car) => {
+    console.log(car);
+    //this.setState({ value: this.state.value + 1 });
+  };
+
   render() {
-    /* <div className="car-display">
-        <p>Showing: {this.getNCars()} cars total</p>
-        {
-          this.props.carData.data.map(function(car){
-            return (
-              <div key={car.id} className="well">
-                <div className="image-container">
-                  <img src={car.img} />
-                </div>
-                <h3>{[car.make, car.model].join(" ")}</h3>
-                <span>${car.price}</span>
-              </div>
-            )
-          })
-        }
-      </div>*/
     const { errorStatus, cars } = this.state;
 
     return (
       <div className="car-display">
+        <Navbar bg="light" expand="lg">
+          <Navbar.Brand href="#home">Car Dealership</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="#home">Página inicial</Nav.Link>
+              <Nav.Link href="#link">Em processamento</Nav.Link>
+              <NavDropdown title="Mais" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Nao sei</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Nao sei1</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Nao sei2</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">Nao sei3</NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+            <Form inline>
+              <FormControl
+                type="text"
+                placeholder="Pesquisar"
+                className="mr-sm-2"
+              />
+              <Button variant="outline-success">Pesquisar</Button>
+            </Form>
+          </Navbar.Collapse>
+        </Navbar>
+        <div className="menubar">
+          <h2
+            style={{
+              textAlignVertical: "center",
+              textAlign: "center",
+              borderBottomWidth: 10,
+            }}
+            className="textNav"
+          >
+            Welcome to Car Dealership
+          </h2>
+        </div>
         {this.renderTags()}
         <h2>Cars:</h2>
         {errorStatus && <p className="error">{errorStatus}</p>}
+
         <CarList cars={cars} />
       </div>
     );

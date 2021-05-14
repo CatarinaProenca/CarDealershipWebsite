@@ -1,0 +1,22 @@
+gui- 
+
+catarina-
+
+carolina-
+
+maria-
+
+tarefas:
+
+search bar 
+
+botao para escolher a cor
+pagina para escolher cor
+
+
+botao para finalizar a compra
+pagina para finalizar a compra
+
+contactar o comprador por email a confirmar a compra 
+depois enviar outro email com o VIN, matricula e o QR
+

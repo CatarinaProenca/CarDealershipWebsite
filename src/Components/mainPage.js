@@ -86,8 +86,19 @@ class MainPage extends Component {
       search: "",
       info: 0,
     };
+
+    
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
+  handleSearch(event) {    
+    this.setState({search: event.target.value});
+  }
+
+  searchCars = () => {
+    return this.state.cars.filter(car => car.name.toString().toUpperCase().includes(this.state.search.toString().toUpperCase()))
+  }
+  
   handleClickInfo() {
     /* return (
      <Router>
@@ -96,15 +107,15 @@ class MainPage extends Component {
     );*/
   }
 
-  updateSearch(event) {
+  /*updateSearch(event) {
     this.setState({ search: event.target.value.substr(0, 20) });
-  }
+  }*/
 
   renderTags() {
     if (this.state.cars.length === 0)
       return <p>There are no cars available!</p>;
 
-    return <p>Showing: {this.state.cars.length} cars total</p>;
+    return <p>Showing: {this.searchCars().length} cars total</p>;
   }
 
   handleInfo = (car) => {
@@ -137,8 +148,9 @@ class MainPage extends Component {
                 type="text"
                 placeholder="Pesquisar"
                 className="mr-sm-2"
+                value={this.state.search}
+                onChange={this.handleSearch}
               />
-              <Button variant="outline-success">Pesquisar</Button>
             </Form>
           </Navbar.Collapse>
         </Navbar>
@@ -157,8 +169,8 @@ class MainPage extends Component {
         {this.renderTags()}
         <h2>Cars:</h2>
         {errorStatus && <p className="error">{errorStatus}</p>}
-
-        <CarList cars={cars} />
+        <CarList cars={this.searchCars()} />         
+        
       </div>
     );
   }

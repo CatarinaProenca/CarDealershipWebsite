@@ -4,11 +4,11 @@ catarina-
 
 carolina-
 
-maria-
+maria- search bar
 
 tarefas:
 
-search bar 
+search bar - done
 
 botao para escolher a cor
 pagina para escolher cor

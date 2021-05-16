@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import CarList from "./carList";
+import Costumize from "./customize";
+
 import {
   Navbar,
   Form,
@@ -8,7 +10,7 @@ import {
   Nav,
   Button,
 } from "react-bootstrap";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router,Route,Switch} from "react-router-dom";
 //import Info from "./infoPage";
 
 class MainPage extends Component {
@@ -100,12 +102,9 @@ class MainPage extends Component {
   }
   
   handleClickInfo() {
-    /* return (
-     <Router>
-        <Info />
-      </Router>
-    );*/
+    alert("You clicked on me");
   }
+ 
 
   /*updateSearch(event) {
     this.setState({ search: event.target.value.substr(0, 20) });
@@ -122,12 +121,16 @@ class MainPage extends Component {
     console.log(car);
     //this.setState({ value: this.state.value + 1 });
   };
+  handlePageChange() {
+    window.location.hash = "/customize";
+  }
 
   render() {
     const { errorStatus, cars } = this.state;
 
     return (
       <div className="car-display">
+
         <Navbar bg="light" expand="lg">
           <Navbar.Brand href="#home">Car Dealership</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -154,6 +157,15 @@ class MainPage extends Component {
             </Form>
           </Navbar.Collapse>
         </Navbar>
+        <Router>
+          <div className = "routes">
+              <Switch>
+                <Route path = "/" exact />
+                <Route path = "/customize" component = {Costumize}/>
+                <Route render={() => <h2 className="four-o-four">404 Page Not Found</h2>} />
+              </Switch>
+          </div>
+        </Router>
         <div className="menubar">
           <h2
             style={{
@@ -164,13 +176,12 @@ class MainPage extends Component {
             className="textNav"
           >
             Welcome to Car Dealership
-          </h2>
-        </div>
+          </h2> 
+          </div>
         {this.renderTags()}
         <h2>Cars:</h2>
         {errorStatus && <p className="error">{errorStatus}</p>}
         <CarList cars={this.searchCars()} />         
-        
       </div>
     );
   }

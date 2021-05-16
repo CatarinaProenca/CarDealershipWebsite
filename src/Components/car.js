@@ -1,9 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 import Info from "./infoPage";
-import handleClickInfo from "./mainPage";
 //import { MDBIcon } from "mdbreact";
-import { BrowserRouter as Router } from "react-router-dom";
 
 const Car = ({ name, model, price, wiki, img }) => {
   return (
@@ -14,9 +12,7 @@ const Car = ({ name, model, price, wiki, img }) => {
       <h4>{model}</h4>
       {wiki && <p>Link: {wiki}</p>}
       {<img src={img} alt="" width="193" height="130" />}
-      <button onClick={handleClickInfo} className="btn btn-success btn-sm">
-        Comprar
-      </button>
+       <a className="btn btn-success btn-sm" onClick={() => {window.location.href=`/customize?id=${model}`}}>Comprar</a>
       <button className="btn btn-primary btn-sm">+Info</button>
     </article>
   );

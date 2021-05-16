@@ -10,7 +10,10 @@ tarefas:
 
 search bar - done
 
-botao para escolher a cor
+botao para escolher a cor -> o botao esta a funcionar por JS porque perdi a tarde toda
+nesta merdae nao consegui meter a usar React, esta a mandar o id por GET e depois 
+na pagina depois esta a recebe-lo por JS, nessa pagina esta so  -> Gui
+
 pagina para escolher cor
 
 

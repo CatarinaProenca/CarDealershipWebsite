@@ -1,17 +1,11 @@
 import React, { Component } from "react";
 import CarList from "./carList";
-import Costumize from "./customize";
-
 import {
   Navbar,
   Form,
-  NavDropdown,
-  FormControl, 
+  FormControl,
   Nav,
-  Button,
 } from "react-bootstrap";
-import { BrowserRouter as Router,Route,Switch} from "react-router-dom";
-//import Info from "./infoPage";
 
 class MainPage extends Component {
   constructor(props) {
@@ -89,22 +83,17 @@ class MainPage extends Component {
       info: 0,
     };
 
-    
+
     this.handleSearch = this.handleSearch.bind(this);
   }
 
-  handleSearch(event) {    
+  handleSearch(event) {
     this.setState({search: event.target.value});
   }
 
   searchCars = () => {
     return this.state.cars.filter(car => car.name.toString().toUpperCase().includes(this.state.search.toString().toUpperCase()))
   }
-  
-  handleClickInfo() {
-    alert("You clicked on me");
-  }
- 
 
   /*updateSearch(event) {
     this.setState({ search: event.target.value.substr(0, 20) });
@@ -117,16 +106,9 @@ class MainPage extends Component {
     return <p>Showing: {this.searchCars().length} cars total</p>;
   }
 
-  handleInfo = (car) => {
-    console.log(car);
-    //this.setState({ value: this.state.value + 1 });
-  };
-  handlePageChange() {
-    window.location.hash = "/customize";
-  }
 
   render() {
-    const { errorStatus, cars } = this.state;
+    const { errorStatus } = this.state;
 
     return (
       <div className="car-display">
@@ -136,15 +118,6 @@ class MainPage extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="#home">Página inicial</Nav.Link>
-              <Nav.Link href="#link">Em processamento</Nav.Link>
-              <NavDropdown title="Mais" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Nao sei</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Nao sei1</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Nao sei2</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Nao sei3</NavDropdown.Item>
-              </NavDropdown>
             </Nav>
             <Form inline>
               <FormControl
@@ -157,15 +130,7 @@ class MainPage extends Component {
             </Form>
           </Navbar.Collapse>
         </Navbar>
-        <Router>
-          <div className = "routes">
-              <Switch>
-                <Route path = "/" exact />
-                <Route path = "/customize" component = {Costumize}/>
-                <Route render={() => <h2 className="four-o-four">404 Page Not Found</h2>} />
-              </Switch>
-          </div>
-        </Router>
+
         <div className="menubar">
           <h2
             style={{
@@ -176,12 +141,12 @@ class MainPage extends Component {
             className="textNav"
           >
             Welcome to Car Dealership
-          </h2> 
+          </h2>
           </div>
         {this.renderTags()}
         <h2>Cars:</h2>
         {errorStatus && <p className="error">{errorStatus}</p>}
-        <CarList cars={this.searchCars()} />         
+        <CarList cars={this.searchCars()} />
       </div>
     );
   }

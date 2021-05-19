@@ -12,7 +12,14 @@ const Car = ({ name, model, price, wiki, img }) => {
       <h4>{model}</h4>
       {wiki && <p>Link: {wiki}</p>}
       {<img src={img} alt="" width="193" height="130" />}
-       <a className="btn btn-success btn-sm" onClick={() => {window.location.href=`/customize?id=${model}`}}>Comprar</a>
+      <a
+        className="btn btn-success btn-sm"
+        onClick={() => {
+          window.location.href = `/customize?id=${model}`;
+        }}
+      >
+        Comprar
+      </a>
       <button className="btn btn-primary btn-sm">+Info</button>
     </article>
   );

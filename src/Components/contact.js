@@ -12,6 +12,7 @@ class ContactForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
     this.setState({
       alertMsg: true,
       uname: "",
@@ -75,8 +76,6 @@ class ContactForm extends Component {
   onMessageChange(event) {
     this.setState({ message: event.target.value });
   }
-
-  handleSubmit(event) {}
 }
 
 export default ContactForm;

@@ -138,7 +138,8 @@ class Car extends Component {
       to_email: this.state.email,
       name: this.state.userName,
       color: this.state.value,
-      car: this.state.model,
+      model: this.state.model,
+      car: this.state.name,
     };
 
     emailjs.send(

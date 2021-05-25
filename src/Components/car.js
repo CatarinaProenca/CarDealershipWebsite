@@ -15,6 +15,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import * as emailjs from "emailjs-com";
 //import { MDBIcon } from "mdbreact";
+import axios from 'axios';
 
 class Car extends Component {
   constructor(props) {
@@ -150,6 +151,34 @@ class Car extends Component {
     );
 
     this.handleClose();
+
+    var formparameters = {
+      method: "POST", // or 'PUT'
+      body: JSON.stringify({ model: this.state.model, color: this.state.value }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin" : "*"
+      },
+    };
+    fetch(
+      " https://4dtokwix40.execute-api.us-east-1.amazonaws.com/getCar",
+      formparameters
+    )
+      .then(function (data) {
+        if (data.status !== 200) {
+          
+          console.log("carro nao existe");
+        } else {
+          
+          console.log("carro existe");
+        }
+      })
+      .catch(function (error) {
+        console.log(
+          "There has been a problem with your fetch operation: ",
+          error.message
+        );
+      });
   };
 
   sendFeedback(templateId, variables) {

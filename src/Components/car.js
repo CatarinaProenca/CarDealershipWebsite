@@ -33,6 +33,7 @@ class Car extends Component {
       email: "",
       wiki: this.props.info.wiki,
       value: "", //Cor
+      vin:"",
       error: "",
       helperText: "",
       img: this.props.info.img,
@@ -143,15 +144,17 @@ class Car extends Component {
       car: this.state.name,
     };
 
+    // ------------------- envia o email a confirmar o pedido -----------------
     emailjs.send(
       "service_2m96o4t",
       "template_f1h2xzs",
       data,
       "user_MIlsk8WDaHRjzZFRIshub"
     );
-
+    // ------------------------------------------------------------------------
     this.handleClose();
     
+    // -------------------- request à REST API para ver se existe o veículo ----------------------
     const model_color = "model=" + this.state.model + "&color=" + this.state.value;
 
     fetch(
@@ -161,27 +164,18 @@ class Car extends Component {
       .then(data => {
         if(data.statusCode === 200){
           console.log ("Carro existe!!");
+          this.setState({
+            vin: data.vin,
+          });
+          console.log ("VIN: " + this.state.vin);
         }
         else{
           console.log ("Carro não existe!!");
         }
       });
+      
+    // ------------------------------------------------------------------------
   };
-
-  sendFeedback(templateId, variables) {
-    window.emailjs
-      .send("default_service", templateId, variables)
-      .then((res) => {
-        console.log("Email successfully sent!");
-      })
-      // Handle errors here however you like, or use a React error boundary
-      .catch((err) =>
-        console.error(
-          "Oh well, you failed. Here some thoughts on the error that occured:",
-          err
-        )
-      );
-  }
 
   render() {
     return (

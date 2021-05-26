@@ -151,33 +151,20 @@ class Car extends Component {
     );
 
     this.handleClose();
+    
+    const model_color = "model=" + this.state.model + "&color=" + this.state.value;
 
-    var formparameters = {
-      method: "POST", // or 'PUT'
-      body: JSON.stringify({ model: this.state.model, color: this.state.value }),
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin" : "*"
-      },
-    };
     fetch(
-      " https://4dtokwix40.execute-api.us-east-1.amazonaws.com/getCar",
-      formparameters
+      "https://4dtokwix40.execute-api.us-east-1.amazonaws.com/getCar/getcars?"+ model_color
     )
-      .then(function (data) {
-        if (data.status !== 200) {
-          
-          console.log("carro nao existe");
-        } else {
-          
-          console.log("carro existe");
+      .then(response => response.json())
+      .then(data => {
+        if(data.statusCode === 200){
+          console.log ("Carro existe!!");
         }
-      })
-      .catch(function (error) {
-        console.log(
-          "There has been a problem with your fetch operation: ",
-          error.message
-        );
+        else{
+          console.log ("Carro não existe!!");
+        }
       });
   };
 

@@ -15,7 +15,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import * as emailjs from "emailjs-com";
 //import { MDBIcon } from "mdbreact";
-import axios from 'axios';
+import axios from "axios";
 
 class Car extends Component {
   constructor(props) {
@@ -33,7 +33,8 @@ class Car extends Component {
       email: "",
       wiki: this.props.info.wiki,
       value: "", //Cor
-      vin:"",
+      vin: "",
+      license: "",
       error: "",
       helperText: "",
       img: this.props.info.img,
@@ -142,6 +143,7 @@ class Car extends Component {
       color: this.state.value,
       model: this.state.model,
       car: this.state.name,
+      vin: this.state.vin,
     };
 
     // ------------------- envia o email a confirmar o pedido -----------------
@@ -153,27 +155,59 @@ class Car extends Component {
     );
     // ------------------------------------------------------------------------
     this.handleClose();
-    
+
     // -------------------- request à REST API para ver se existe o veículo ----------------------
-    const model_color = "model=" + this.state.model + "&color=" + this.state.value;
+    const model_color =
+      "model=" + this.state.model + "&color=" + this.state.value;
 
     fetch(
-      "https://4dtokwix40.execute-api.us-east-1.amazonaws.com/getCar/getcars?"+ model_color
+      "https://4dtokwix40.execute-api.us-east-1.amazonaws.com/getCar/getcars?" +
+        model_color
     )
-      .then(response => response.json())
-      .then(data => {
-        if(data.statusCode === 200){
-          console.log ("Carro existe!!");
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.statusCode === 200) {
+          console.log("Carro existe!!");
           this.setState({
             vin: data.vin,
           });
-          console.log ("VIN: " + this.state.vin);
-        }
-        else{
-          console.log ("Carro não existe!!");
+          console.log("VIN: " + this.state.vin);
+        } else {
+          console.log("Carro não existe!!");
         }
       });
-      
+
+    // ------------------------------------------------------------------------
+
+    // -------------------- enviar o vin à REST API  ----------------------
+
+    fetch(
+      "https://q4tfwtiaug.execute-api.us-east-1.amazonaws.com/verifyVin/verifyvin",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ vin: this.state.vin }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.statusCode === 200) {
+          console.log("olaaa " + data.statusCode);
+          console.log("VIN válido!!");
+          this.setState({
+            license: data.license,
+          });
+          console.log("License: " + this.state.license);
+        } else {
+          console.log("olaaa " + data);
+
+          console.log("VIN inválido!!");
+        }
+      });
+
     // ------------------------------------------------------------------------
   };
 

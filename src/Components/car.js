@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Spinner, Suspense } from "react";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -28,8 +28,10 @@ class Car extends Component {
       price: this.props.info.price,
       pageNumber: 0,
       userName: "",
+      address: "",
       helperTextName: "",
       helperTextMail: "",
+      helperTextAddress: "",
       email: "",
       wiki: this.props.info.wiki,
       value: "", //Cor
@@ -115,6 +117,14 @@ class Car extends Component {
     this.setError(false);
   };
 
+  handleAddressChange = (event) => {
+    this.setState({
+      address: event.target.value,
+    });
+    this.setHelperText(" ");
+    this.setError(false);
+  };
+
   handleSubmit1 = (event) => {
     event.preventDefault();
 
@@ -136,6 +146,34 @@ class Car extends Component {
     console.log("cor - " + this.state.value);
     console.log("username - " + this.state.userName);
     console.log("Email - " + this.state.email);
+    console.log("Address - " + this.state.address);
+
+    (async () => {
+      await this.fetch_vin_license(function () {
+        console.log("");
+      });
+    })();
+
+    // ------------------------------------------------------------------------
+  };
+
+  async fetch_vin_license(_callback) {
+    // -------------------- request à REST API para ver se existe o veículo ----------------------
+    const model_color =
+      "model=" + this.state.model + "&color=" + this.state.value;
+
+    const response = await fetch(
+      "https://4dtokwix40.execute-api.us-east-1.amazonaws.com/getCar/getcars?" +
+        model_color
+    );
+    const json = await response.json();
+    if (json.statusCode === 200) {
+      console.log("Carro existeiii!!");
+      this.setState({ vin: json.vin });
+      console.log("VIN: " + this.state.vin);
+    } else {
+      console.log("Carro não existe!!");
+    }
 
     var data = {
       to_email: this.state.email,
@@ -144,45 +182,21 @@ class Car extends Component {
       model: this.state.model,
       car: this.state.name,
       vin: this.state.vin,
+      address: this.state.address,
     };
 
     // ------------------- envia o email a confirmar o pedido -----------------
-    emailjs.send(
+    /*emailjs.send(
       "service_2m96o4t",
       "template_f1h2xzs",
       data,
       "user_MIlsk8WDaHRjzZFRIshub"
-    );
+    );*/
     // ------------------------------------------------------------------------
     this.handleClose();
 
-    // -------------------- request à REST API para ver se existe o veículo ----------------------
-    const model_color =
-      "model=" + this.state.model + "&color=" + this.state.value;
-
-    fetch(
-      "https://4dtokwix40.execute-api.us-east-1.amazonaws.com/getCar/getcars?" +
-        model_color
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.statusCode === 200) {
-          console.log("Carro existe!!");
-          this.setState({
-            vin: data.vin,
-          });
-          console.log("VIN: " + this.state.vin);
-        } else {
-          console.log("Carro não existe!!");
-        }
-      });
-
-    // ------------------------------------------------------------------------
-
-    // -------------------- enviar o vin à REST API  ----------------------
-
-    fetch(
-      "https://q4tfwtiaug.execute-api.us-east-1.amazonaws.com/verifyVin/verifyvin",
+    const response2 = await fetch(
+      "https://1cndwc1y01.execute-api.us-east-1.amazonaws.com/CheckVin/checkvin/",
       {
         method: "POST",
         headers: {
@@ -191,25 +205,50 @@ class Car extends Component {
         },
         body: JSON.stringify({ vin: this.state.vin }),
       }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.statusCode === 200) {
-          console.log("olaaa " + data.statusCode);
-          console.log("VIN válido!!");
-          this.setState({
-            license: data.license,
-          });
-          console.log("License: " + this.state.license);
-        } else {
-          console.log("olaaa " + data);
+    );
+    const json2 = await response2.json();
+    if (response2.status === 200) {
+      console.log("VIN recebido!!");
+    } else {
+      console.log("Falha ao enviar VIN!!");
+    }
 
-          console.log("VIN inválido!!");
-        }
-      });
+    const response1 = await fetch(
+      "https://1cndwc1y01.execute-api.us-east-1.amazonaws.com/CheckVin/checkvin?vin=" +
+        this.state.vin
+    );
+    const json1 = await response1.json();
 
-    // ------------------------------------------------------------------------
-  };
+    if (json1.statusCode === 200) {
+      console.log("Matricula recebida!");
+      this.setState({ license: json1.license });
+      console.log("License: " + this.state.license);
+    } else {
+      console.log("Falha com a matricula!!");
+    }
+
+    var data1 = {
+      to_email: this.state.email,
+      name: this.state.userName,
+      color: this.state.value,
+      model: this.state.model,
+      car: this.state.name,
+      vin: this.state.vin,
+      address: this.state.address,
+      license: this.state.license,
+      qrcode: this.state.qrcode,
+    };
+
+    // ------------------- envia o email a confirmar o pedido -----------------
+    /*emailjs.send(
+      "service_2m96o4t",
+      "template_t08jm0j",
+      data1,
+      "user_MIlsk8WDaHRjzZFRIshub"
+    );*/
+
+    _callback();
+  }
 
   render() {
     return (
@@ -239,7 +278,9 @@ class Car extends Component {
             <div>
               <form onSubmit={this.handleSubmit}>
                 <FormControl component="fieldset" error={this.state.error}>
-                  <FormLabel component="legend">Choose your color</FormLabel>
+                  <FormLabel component="legend">
+                    Choose your car color
+                  </FormLabel>
                   <RadioGroup
                     aria-label="quiz"
                     name="quiz"
@@ -267,14 +308,14 @@ class Car extends Component {
                       label="Green"
                     />
                     <FormControlLabel
-                      value="Blue4"
+                      value="Black"
                       control={<Radio color="warning" />}
-                      label="Blue4"
+                      label="Black"
                     />
                     <FormControlLabel
-                      value="Blue5"
+                      value="Yellow"
                       control={<Radio color="success" />}
-                      label="Blue5"
+                      label="Yellow"
                     />
                   </RadioGroup>
                   <FormHelperText>{this.state.helperText}</FormHelperText>
@@ -288,7 +329,9 @@ class Car extends Component {
           {this.state.pageNumber === 1 ? (
             <div>
               <DialogContent>
-                <DialogContentText>Name and Email</DialogContentText>
+                <DialogContentText>
+                  Name, Email and Delivery Address
+                </DialogContentText>
               </DialogContent>
               <form onSubmit={this.handleSubmit1}>
                 <div>
@@ -305,6 +348,13 @@ class Car extends Component {
                     helperText={this.state.helperTextMail}
                     label="Email"
                     onChange={this.handleEmailChange}
+                  />
+                  <TextField
+                    required
+                    id="standard-required"
+                    helperText={this.state.helperTextAddress}
+                    label="Address"
+                    onChange={this.handleAddressChange}
                   />
                 </div>
                 <Button type="submit" variant="outlined" color="primary">

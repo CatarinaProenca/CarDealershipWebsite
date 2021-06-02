@@ -1,4 +1,4 @@
-import React, { Component, Spinner, Suspense } from "react";
+import React, { Component } from "react";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -15,7 +15,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import * as emailjs from "emailjs-com";
 //import { MDBIcon } from "mdbreact";
-import axios from "axios";
 
 class Car extends Component {
   constructor(props) {
@@ -195,7 +194,6 @@ class Car extends Component {
       "user_MIlsk8WDaHRjzZFRIshub"
     );*/
     // ------------------------------------------------------------------------
-    
 
     const response2 = await fetch(
       "https://1cndwc1y01.execute-api.us-east-1.amazonaws.com/CheckVin/checkvin/",
@@ -259,11 +257,18 @@ class Car extends Component {
       <div>
         <h3>
           {" "}
-          {this.state.name}
-          {this.state.price}€
+          {this.state.name} - {this.state.price}€
         </h3>
         <h4> {this.state.model} </h4>
-        {this.state.wiki && <p>Link: {this.state.wiki}</p>}
+        {this.state.wiki && (
+          <p>
+            <tr>
+              <td>
+                <a href={this.state.wiki}>Mais informações do carro</a>
+              </td>
+            </tr>
+          </p>
+        )}
         {<img src={this.state.img} alt="" width="193" height="130" />}
         <Button
           variant="outlined"
@@ -272,6 +277,7 @@ class Car extends Component {
         >
           Buy
         </Button>
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -353,11 +359,13 @@ class Car extends Component {
                     label="Email"
                     onChange={this.handleEmailChange}
                   />
+                  <p></p>
                   <TextField
                     required
-                    id="standard-required"
+                    id="standard-full-width"
                     helperText={this.state.helperTextAddress}
                     label="Address"
+                    fullWidth
                     onChange={this.handleAddressChange}
                   />
                 </div>

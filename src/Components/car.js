@@ -213,20 +213,25 @@ class Car extends Component {
       console.log("Falha ao enviar VIN!!");
     }
 
-    const response1 = await fetch(
-      "https://1cndwc1y01.execute-api.us-east-1.amazonaws.com/CheckVin/checkvin?vin=" +
-        this.state.vin
-    );
-    const json1 = await response1.json();
-
-    if (json1.statusCode === 200) {
-      console.log("Matricula recebida!");
-      this.setState({ license: json1.license });
-      console.log("License: " + this.state.license);
-      this.setState({ qrcode: json1.qrcode });
-      console.log("qr: " + json1.qrcode);
-    } else {
-      console.log("Falha com a matricula!!");
+    var flag = 0;
+    while (flag === 0){
+      const response1 = await fetch(
+        "https://1cndwc1y01.execute-api.us-east-1.amazonaws.com/CheckVin/checkvin?vin=" +
+          this.state.vin
+      );
+      const json1 = await response1.json();
+  
+      if (json1.statusCode === 200) {
+        flag=1;
+        console.log("flag: " + flag);
+        console.log("Matricula recebida!");
+        this.setState({ license: json1.license });
+        console.log("License: " + this.state.license);
+        this.setState({ qrcode: json1.qrcode });
+        console.log("qr: " + json1.qrcode);
+      } else {
+        console.log("Falha com a matricula!!");
+      }
     }
 
     var data1 = {

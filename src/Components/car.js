@@ -187,12 +187,12 @@ class Car extends Component {
     };
 
     // ------------------- envia o email a confirmar o pedido -----------------
-    /*emailjs.send(
-      "service_2m96o4t",
-      "template_f1h2xzs",
+    emailjs.send(
+      "service_a94xlji",
+      "template_4f4ee5w",
       data,
-      "user_MIlsk8WDaHRjzZFRIshub"
-    );*/
+      "user_hurc8F3LmoKxL5ELVg4Sh"
+    );
     // ------------------------------------------------------------------------
 
     const response2 = await fetch(
@@ -247,12 +247,12 @@ class Car extends Component {
     };
 
     // ------------------- envia o email a confirmar o pedido -----------------
-    /*emailjs.send(
-      "service_2m96o4t",
-      "template_t08jm0j",
+    emailjs.send(
+      "service_a94xlji",
+      "template_yd7b80w",
       data1,
-      "user_MIlsk8WDaHRjzZFRIshub"
-    );*/
+      "user_hurc8F3LmoKxL5ELVg4Sh"
+    );
 
     _callback();
   }

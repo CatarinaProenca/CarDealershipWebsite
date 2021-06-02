@@ -147,6 +147,7 @@ class Car extends Component {
     console.log("username - " + this.state.userName);
     console.log("Email - " + this.state.email);
     console.log("Address - " + this.state.address);
+    this.handleClose();
 
     (async () => {
       await this.fetch_vin_license(function () {
@@ -173,6 +174,7 @@ class Car extends Component {
       console.log("VIN: " + this.state.vin);
     } else {
       console.log("Carro não existe!!");
+      return;
     }
 
     var data = {
@@ -193,7 +195,7 @@ class Car extends Component {
       "user_MIlsk8WDaHRjzZFRIshub"
     );*/
     // ------------------------------------------------------------------------
-    this.handleClose();
+    
 
     const response2 = await fetch(
       "https://1cndwc1y01.execute-api.us-east-1.amazonaws.com/CheckVin/checkvin/",
@@ -223,6 +225,8 @@ class Car extends Component {
       console.log("Matricula recebida!");
       this.setState({ license: json1.license });
       console.log("License: " + this.state.license);
+      this.setState({ qrcode: json1.qrcode });
+      console.log("qr: " + json1.qrcode);
     } else {
       console.log("Falha com a matricula!!");
     }

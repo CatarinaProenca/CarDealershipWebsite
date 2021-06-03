@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import CarList from "./carList";
-import {
-  Navbar,
-  Form,
-  FormControl,
-  Nav,
-} from "react-bootstrap";
+import { Navbar, Form, FormControl, Nav } from "react-bootstrap";
 
 class MainPage extends Component {
   constructor(props) {
@@ -18,7 +13,7 @@ class MainPage extends Component {
           name: "Porsche",
           model: "911",
           price: 135000,
-          wiki: "http://en.wikipedia.org/wiki/Porsche_997",
+          wiki: "https://pt.wikipedia.org/wiki/Porsche_911",
           img: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTnuYVDLA0hr3qzoMEMsk5bkGQvzNFs0z06F5j5XbCibohp3CYu7g",
         },
         {
@@ -26,7 +21,7 @@ class MainPage extends Component {
           name: "Tesla",
           model: "Model S",
           price: 100000,
-          wiki: "http://en.wikipedia.org/wiki/Porsche_997",
+          wiki: "https://pt.wikipedia.org/wiki/Tesla_Model_S",
           img: "https://pplware.sapo.pt/wp-content/uploads/2019/06/novo_tesla_model_s_00.jpg",
         },
         {
@@ -34,7 +29,7 @@ class MainPage extends Component {
           name: "Tesla",
           model: "Model X",
           price: 120000,
-          wiki: "http://en.wikipedia.org/wiki/Porsche_997",
+          wiki: "https://pt.wikipedia.org/wiki/Tesla_Model_X",
           img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgrqgYzyFlYmq_4-MJr_5Hy_-LenNHufzMIHuJio88EMDEYlN_7g",
         },
         {
@@ -42,7 +37,7 @@ class MainPage extends Component {
           name: "Porsche",
           model: "Cayenne Turbo",
           price: 11000,
-          wiki: "http://en.wikipedia.org/wiki/Porsche_997",
+          wiki: "https://pt.wikipedia.org/wiki/Porsche_Cayenne",
           img: "https://www.motor24.pt/files/2019/08/4-1-800x533_c.jpg",
         },
         {
@@ -50,7 +45,7 @@ class MainPage extends Component {
           name: "Nissan",
           model: "GT-R",
           price: 80000,
-          wiki: "http://en.wikipedia.org/wiki/Nissan_Gt-r",
+          wiki: "ttps://pt.wikipedia.org/wiki/Nissan_GT-R",
           img: "https://fotos.jornaldocarro.estadao.com.br/uploads/2019/04/21122627/5ee03295-2020-nissan-gt-r-19-1160x773.jpg",
         },
         {
@@ -83,17 +78,21 @@ class MainPage extends Component {
       info: 0,
     };
 
-
     this.handleSearch = this.handleSearch.bind(this);
   }
 
   handleSearch(event) {
-    this.setState({search: event.target.value});
+    this.setState({ search: event.target.value });
   }
 
   searchCars = () => {
-    return this.state.cars.filter(car => car.name.toString().toUpperCase().includes(this.state.search.toString().toUpperCase()))
-  }
+    return this.state.cars.filter((car) =>
+      car.name
+        .toString()
+        .toUpperCase()
+        .includes(this.state.search.toString().toUpperCase())
+    );
+  };
 
   /*updateSearch(event) {
     this.setState({ search: event.target.value.substr(0, 20) });
@@ -106,19 +105,16 @@ class MainPage extends Component {
     return <p>Showing: {this.searchCars().length} cars total</p>;
   }
 
-
   render() {
     const { errorStatus } = this.state;
 
     return (
       <div className="car-display">
-
         <Navbar bg="light" expand="lg">
           <Navbar.Brand href="#home">Car Dealership</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-            </Nav>
+            <Nav className="mr-auto"></Nav>
             <Form inline>
               <FormControl
                 type="text"
@@ -142,7 +138,7 @@ class MainPage extends Component {
           >
             Welcome to Car Dealership
           </h2>
-          </div>
+        </div>
         {this.renderTags()}
         <h2>Cars:</h2>
         {errorStatus && <p className="error">{errorStatus}</p>}
